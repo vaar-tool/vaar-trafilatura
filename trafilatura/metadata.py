@@ -165,33 +165,33 @@ def extract_opengraph(tree):
         if not elem.get('content'):
             continue
         # site name
-        if elem.get('property') == 'og:site_name':
-            site_name = elem.get('content')
+        # if elem.get('property') == 'og:site_name':
+        #     site_name = elem.get('content')
         # blog title
-        elif elem.get('property') == 'og:title':
-            title = elem.get('content')
+        # elif elem.get('property') == 'og:title':
+        #     title = elem.get('content')
         # orig URL
-        elif elem.get('property') == 'og:url':
-            if validate_url(elem.get('content'))[0] is True:
-                url = elem.get('content')
+        # elif elem.get('property') == 'og:url':
+        #     if validate_url(elem.get('content'))[0] is True:
+        #         url = elem.get('content')
         # description
-        elif elem.get('property') == 'og:description':
-            description = elem.get('content')
+        # elif elem.get('property') == 'og:description':
+        #     description = elem.get('content')
         # og:author
         elif elem.get('property') in OG_AUTHOR:
             author = normalize_authors(None, elem.get('content'))
         # image default
-        elif elem.get('property') == 'og:image':
-            image = elem.get('content')
+        # elif elem.get('property') == 'og:image':
+        #     image = elem.get('content')
         # image url
-        elif elem.get('property') == 'og:image:url':
-            image = elem.get('content')
+        # elif elem.get('property') == 'og:image:url':
+        #     image = elem.get('content')
         # image secure url
-        elif elem.get('property') == 'og:image:secure_url':
-            image = elem.get('content')
+        # elif elem.get('property') == 'og:image:secure_url':
+        #     image = elem.get('content')
         # og:type
-        elif elem.get('property') == 'og:type':
-            pagetype = elem.get('content')
+        # elif elem.get('property') == 'og:type':
+        #     pagetype = elem.get('content')
         # og:locale
         # elif elem.get('property') == 'og:locale':
         #    pagelocale = elem.get('content')
@@ -221,14 +221,15 @@ def examine_meta(tree):
             # no opengraph a second time
             if elem.get('property').startswith('og:'):
                 continue
-            if elem.get('property') == 'article:tag':
-                tags.append(normalize_tags(content_attr))
-            elif elem.get('property') in PROPERTY_AUTHOR:
+            # if elem.get('property') == 'article:tag':
+            #     tags.append(normalize_tags(content_attr))
+            if elem.get('property') in PROPERTY_AUTHOR:
+            #elif elem.get('property') in PROPERTY_AUTHOR:
                 author = normalize_authors(author, content_attr)
-            elif elem.get('property') == 'article:publisher':
-                site_name = site_name or content_attr
-            elif elem.get('property') in METANAME_IMAGE:
-                image = image or content_attr
+            # elif elem.get('property') == 'article:publisher':
+            #     site_name = site_name or content_attr
+            # elif elem.get('property') in METANAME_IMAGE:
+            #     image = image or content_attr
         # name attribute
         elif 'name' in elem.attrib:
             name_attr = elem.get('name').lower()
@@ -236,31 +237,31 @@ def examine_meta(tree):
             if name_attr in METANAME_AUTHOR:
                 author = normalize_authors(author, content_attr)
             # title
-            elif name_attr in METANAME_TITLE:
-                title = title or content_attr
+            # elif name_attr in METANAME_TITLE:
+            #     title = title or content_attr
             # description
-            elif name_attr in METANAME_DESCRIPTION:
-                description = description or content_attr
+            # elif name_attr in METANAME_DESCRIPTION:
+            #     description = description or content_attr
             # site name
-            elif name_attr in METANAME_PUBLISHER:
-                site_name = site_name or content_attr
+            # elif name_attr in METANAME_PUBLISHER:
+            #     site_name = site_name or content_attr
             # twitter
-            elif name_attr in TWITTER_ATTRS or 'twitter:app:name' in elem.get('name'):
-                backup_sitename = content_attr
+            # elif name_attr in TWITTER_ATTRS or 'twitter:app:name' in elem.get('name'):
+            #     backup_sitename = content_attr
             # url
-            elif name_attr == 'twitter:url':
-                if url is None and validate_url(content_attr)[0] is True:
-                    url = content_attr
+            # elif name_attr == 'twitter:url':
+            #     if url is None and validate_url(content_attr)[0] is True:
+            #         url = content_attr
             # keywords
-            elif name_attr in METANAME_TAG:  # 'page-topic'
-                tags.append(normalize_tags(content_attr))
+            # elif name_attr in METANAME_TAG:  # 'page-topic'
+            #     tags.append(normalize_tags(content_attr))
         elif 'itemprop' in elem.attrib:
             if elem.get('itemprop') == 'author':
                 author = normalize_authors(author, content_attr)
-            elif elem.get('itemprop') == 'description':
-                description = description or content_attr
-            elif elem.get('itemprop') == 'headline':
-                title = title or content_attr
+            # elif elem.get('itemprop') == 'description':
+            #     description = description or content_attr
+            # elif elem.get('itemprop') == 'headline':
+            #     title = title or content_attr
             # to verify:
             # elif elem.get('itemprop') == 'name':
             #    if title is None:
@@ -273,8 +274,8 @@ def examine_meta(tree):
             LOGGER.debug('unknown attribute: %s',
                          tostring(elem, pretty_print=False, encoding='unicode').strip())
     # backups
-    if site_name is None and backup_sitename is not None:
-        site_name = backup_sitename
+    # if site_name is None and backup_sitename is not None:
+    #     site_name = backup_sitename
     # copy
     metadata.set_attributes(title, author, url, description, site_name, image, pagetype, tags)
     return metadata
@@ -503,8 +504,8 @@ def extract_metadata(filecontent, default_url=None, date_config=None, fastmode=F
     except TypeError as err:
         LOGGER.warning('error in JSON metadata extraction: %s', err)
     # title
-    if metadata.title is None:
-        metadata.title = extract_title(tree)
+    # if metadata.title is None:
+    #     metadata.title = extract_title(tree)
     # check author in blacklist
     if metadata.author is not None and len(author_blacklist) > 0:
         metadata.author = check_authors(metadata.author, author_blacklist)
@@ -515,14 +516,14 @@ def extract_metadata(filecontent, default_url=None, date_config=None, fastmode=F
     if metadata.author is not None and len(author_blacklist) > 0:
         metadata.author = check_authors(metadata.author, author_blacklist)
     # url
-    if metadata.url is None:
-        metadata.url = extract_url(tree, default_url)
+    # if metadata.url is None:
+    #     metadata.url = extract_url(tree, default_url)
     # hostname
-    if metadata.url is not None:
-        metadata.hostname = extract_domain(metadata.url, fast=True)
+    # if metadata.url is not None:
+    #     metadata.hostname = extract_domain(metadata.url, fast=True)
     # image
-    if metadata.image is None:
-        metadata.image = extract_image(tree)
+    # if metadata.image is None:
+    #     metadata.image = extract_image(tree)
     # extract date with external module htmldate
     if date_config is None:
         # decide on fast mode
@@ -533,42 +534,42 @@ def extract_metadata(filecontent, default_url=None, date_config=None, fastmode=F
     date_config['url'] = metadata.url
     metadata.date = find_date(tree, **date_config)
     # sitename
-    if metadata.sitename is None:
-        metadata.sitename = extract_sitename(tree)
-    if metadata.sitename is not None:
-        # fix: take 1st element (['Westdeutscher Rundfunk'])
-        if isinstance(metadata.sitename, list):
-            metadata.sitename = metadata.sitename[0]
-        # hotfix: probably an error coming from json_metadata (#195)
-        elif isinstance(metadata.sitename, dict):
-            metadata.sitename = str(metadata.sitename)
-        if metadata.sitename.startswith('@'):
-            # scrap Twitter ID
-            metadata.sitename = re.sub(r'^@', '', metadata.sitename)
-        # capitalize
-        try:
-            if (
-                '.' not in metadata.sitename
-                and not metadata.sitename[0].isupper()
-            ):
-                metadata.sitename = metadata.sitename.title()
-        # fix for empty name
-        except IndexError as err:
-            LOGGER.warning('error in sitename extraction: %s', err)
+    # if metadata.sitename is None:
+    #    metadata.sitename = extract_sitename(tree)
+    # if metadata.sitename is not None:
+    #     # fix: take 1st element (['Westdeutscher Rundfunk'])
+    #     if isinstance(metadata.sitename, list):
+    #         metadata.sitename = metadata.sitename[0]
+    #     # hotfix: probably an error coming from json_metadata (#195)
+    #     elif isinstance(metadata.sitename, dict):
+    #         metadata.sitename = str(metadata.sitename)
+    #     if metadata.sitename.startswith('@'):
+    #         # scrap Twitter ID
+    #         metadata.sitename = re.sub(r'^@', '', metadata.sitename)
+    #     # capitalize
+    #     try:
+    #         if (
+    #             '.' not in metadata.sitename
+    #             and not metadata.sitename[0].isupper()
+    #         ):
+    #             metadata.sitename = metadata.sitename.title()
+    #     # fix for empty name
+    #     except IndexError as err:
+    #         LOGGER.warning('error in sitename extraction: %s', err)
     # use URL
-    elif metadata.url:
-        mymatch = re.match(r'https?://(?:www\.|w[0-9]+\.)?([^/]+)', metadata.url)
-        if mymatch:
-            metadata.sitename = mymatch[1]
-    # categories
-    if not metadata.categories:
-        metadata.categories = extract_catstags('category', tree)
-    # tags
-    if not metadata.tags:
-        metadata.tags = extract_catstags('tag', tree)
-    # license
-    metadata.license = extract_license(tree)
-    # safety checks
-    metadata.clean_and_trim()
+    # elif metadata.url:
+    #     mymatch = re.match(r'https?://(?:www\.|w[0-9]+\.)?([^/]+)', metadata.url)
+    #     if mymatch:
+    #         metadata.sitename = mymatch[1]
+    # # categories
+    # if not metadata.categories:
+    #     metadata.categories = extract_catstags('category', tree)
+    # # tags
+    # if not metadata.tags:
+    #     metadata.tags = extract_catstags('tag', tree)
+    # # license
+    # metadata.license = extract_license(tree)
+    # # safety checks
+    # metadata.clean_and_trim()
     # return result
     return metadata
