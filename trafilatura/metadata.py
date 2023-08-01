@@ -515,9 +515,9 @@ def extract_metadata(filecontent, default_url=None, date_config=None, fastmode=F
     # recheck author in blacklist
     if metadata.author is not None and len(author_blacklist) > 0:
         metadata.author = check_authors(metadata.author, author_blacklist)
-    # url
-    # if metadata.url is None:
-    #     metadata.url = extract_url(tree, default_url)
+    url
+    if metadata.url is None:
+        metadata.url = extract_url(tree, default_url)
     # hostname
     # if metadata.url is not None:
     #     metadata.hostname = extract_domain(metadata.url, fast=True)
