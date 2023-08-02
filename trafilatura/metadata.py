@@ -171,9 +171,9 @@ def extract_opengraph(tree):
         # elif elem.get('property') == 'og:title':
         #     title = elem.get('content')
         # orig URL
-        # elif elem.get('property') == 'og:url':
-        #     if validate_url(elem.get('content'))[0] is True:
-        #         url = elem.get('content')
+        elif elem.get('property') == 'og:url':
+            if validate_url(elem.get('content'))[0] is True:
+                url = elem.get('content')
         # description
         # elif elem.get('property') == 'og:description':
         #     description = elem.get('content')
@@ -249,9 +249,9 @@ def examine_meta(tree):
             # elif name_attr in TWITTER_ATTRS or 'twitter:app:name' in elem.get('name'):
             #     backup_sitename = content_attr
             # url
-            # elif name_attr == 'twitter:url':
-            #     if url is None and validate_url(content_attr)[0] is True:
-            #         url = content_attr
+            elif name_attr == 'twitter:url':
+                if url is None and validate_url(content_attr)[0] is True:
+                    url = content_attr
             # keywords
             # elif name_attr in METANAME_TAG:  # 'page-topic'
             #     tags.append(normalize_tags(content_attr))
@@ -515,7 +515,7 @@ def extract_metadata(filecontent, default_url=None, date_config=None, fastmode=F
     # recheck author in blacklist
     if metadata.author is not None and len(author_blacklist) > 0:
         metadata.author = check_authors(metadata.author, author_blacklist)
-    url
+    # url
     if metadata.url is None:
         metadata.url = extract_url(tree, default_url)
     # hostname
