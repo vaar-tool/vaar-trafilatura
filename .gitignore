@@ -33,3 +33,4 @@ Pipfile*
 # older stuff
 old/
 
+.DS_Store
